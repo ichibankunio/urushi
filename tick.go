@@ -4,7 +4,7 @@ import "github.com/hajimehoshi/ebiten/v2"
 
 type TickF struct {
 	span int
-	content func(int, interface{}) bool
+	content func(int, []interface{}) bool
 	contentCounter int
 	repeat int
 	tweener Tweener
