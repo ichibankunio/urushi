@@ -1,4 +1,4 @@
-module github.com/ku20298/urushi
+module github.com/ichibankunio/urushi
 
 go 1.17
 
