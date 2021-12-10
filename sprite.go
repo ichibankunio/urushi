@@ -16,7 +16,6 @@ type Sprite struct {
 	DrawOption func(*ebiten.DrawImageOptions)
 	
 	touchID ebiten.TouchID
-	afterLatestTouch int
 }
 
 func NewSprite(img *ebiten.Image, x, y float64) *Sprite {
@@ -26,7 +25,6 @@ func NewSprite(img *ebiten.Image, x, y float64) *Sprite {
 		Y:     y,
 		Alpha: 1,
 		DrawOption: func(*ebiten.DrawImageOptions){},
-		afterLatestTouch: 10000,
 	}
 
 	return spr
@@ -48,9 +46,6 @@ func (s *Sprite) Draw(screen *ebiten.Image) {
 	}
 }
 
-func (s *Sprite) updateFrame() {
-	s.afterLatestTouch ++
-}
 
 func (s *Sprite) IsJustTouched() bool {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || inpututil.IsKeyJustPressed(ebiten.KeySpace) {
@@ -68,7 +63,6 @@ func (s *Sprite) IsJustTouched() bool {
 			x, y := ebiten.TouchPosition(t)
 			if x >= int(s.X) && x <= int(s.X)+s.Img.Bounds().Dx() && y >= int(s.Y) && y <= int(s.Y)+s.Img.Bounds().Dy() {
 				s.touchID = t
-				s.afterLatestTouch = 0
 				return true
 			}
 		}
