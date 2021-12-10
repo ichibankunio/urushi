@@ -8,13 +8,13 @@ type TickF struct {
 	contentCounter int
 	repeat int
 	tweener Tweener
-	content2 func(int, ...TickOptions) bool
+	// content2 func(int, ...TickOptions) bool
 }
 
-type TickOptions struct {
-	target interface{}
-	tweener Tweener
-}
+// type TickOptions struct {
+// 	target interface{}
+// 	tweener Tweener
+// }
 
 func (t *TickF) Update(g *Game, i ...interface{}) {
 	if g.counter % t.span == 0 {
