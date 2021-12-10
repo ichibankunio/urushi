@@ -4,7 +4,7 @@ import "github.com/hajimehoshi/ebiten/v2"
 
 type TickF struct {
 	span int
-	content func(int, ...interface{}) bool
+	content func(int, interface{}) bool
 	contentCounter int
 	repeat int
 	tweener Tweener
@@ -29,7 +29,7 @@ func (t *TickF) Update(g *Game, i ...interface{}) {
 	}
 }
 
-func NewTickF(span int, content func(int, ...interface{}) bool) *TickF {
+func NewTickF(span int, content func(int, interface{}) bool) *TickF {
 	return &TickF{
 		span: span,
 		content: content,
