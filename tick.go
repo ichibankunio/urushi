@@ -9,7 +9,7 @@ type TickF struct {
 	repeat int
 }
 
-func (t *TickF) update(g *Game, i ...interface{}) {
+func (t *TickF) Update(g *Game, i ...interface{}) {
 	if g.counter % t.span == 0 {
 		if ebiten.MaxTPS() == 30 {
 			t.content(t.contentCounter, i)
