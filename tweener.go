@@ -1,6 +1,10 @@
 package urushi
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"math"
+
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 
 type Tweener struct {
@@ -17,10 +21,36 @@ type Tweener struct {
 type Easing int
 
 const (
-	EaseIn Easing = iota
+	EaseLinear Easing = iota
+	EaseInQuad
+	EaseOutQuad
+	EaseInOutQuad
+
+	EaseInCubic
+	EaseOutCubic
+	EaseInOutCubic
+
+	EaseInQuart
+	EaseOutQuart
+	EaseInOutQuart
+
+	EaseInQuint
+	EaseOutQuint
+	EaseInOutQuint
+
+	EaseInSine
+	EaseOutSine
+	EaseInOutSine
+
+	EaseInExpo
+	EaseOutExpo
+	EaseInOutExpo
 )
 
 func NewTweener(begin float64, end float64, duration float64, easing Easing) *Tweener {
+	if ebiten.MaxTPS() == 30 {
+		duration /= 2
+	}
 	return &Tweener{
 		Repeat: 0,
 		Target: nil,
@@ -41,20 +71,204 @@ func (t *Tweener) Update(cc int) (float64, bool) {
 	// t.sigma += (t.dst-t.start) / t.duration
 	var value float64
 	switch t.easing {
-	case EaseIn:
-		value = easeIn(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseLinear:
+		value = easeLinear(float64(cc), t.begin, t.end - t.begin, t.duration)
+
+	case EaseInQuad:
+		value = easeInQuad(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseOutQuad:
+		value = easeOutQuad(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseInOutQuad:
+		value = easeInOutQuad(float64(cc), t.begin, t.end - t.begin, t.duration)
+
+	case EaseInCubic:
+		value = easeInCubic(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseOutCubic:
+		value = easeOutCubic(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseInOutCubic:
+		value = easeInOutCubic(float64(cc), t.begin, t.end - t.begin, t.duration)
+
+	case EaseInQuart:
+		value = easeInQuart(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseOutQuart:
+		value = easeOutQuart(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseInOutQuart:
+		value = easeInOutQuart(float64(cc), t.begin, t.end - t.begin, t.duration)
+
+	case EaseInQuint:
+		value = easeInQuint(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseOutQuint:
+		value = easeOutQuint(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseInOutQuint:
+		value = easeInOutQuint(float64(cc), t.begin, t.end - t.begin, t.duration)
+	
+	case EaseInSine:
+		value = easeInSine(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseOutSine:
+		value = easeOutSine(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseInOutSine:
+		value = easeInOutSine(float64(cc), t.begin, t.end - t.begin, t.duration)
+	
+	case EaseInExpo:
+		value = easeInExpo(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseOutExpo:
+		value = easeOutExpo(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseInOutExpo:
+		value = easeInOutExpo(float64(cc), t.begin, t.end - t.begin, t.duration)
 	}
-	// t.delta = value - t.start
+	
 
 	return value, value == t.end
 }
 
-func easeIn(t, b, c, d float64) float64 {
+func easeLinear(t, b, c, d float64) float64 {
+	return c * t / d + b
+}
+
+
+func easeInQuad(t, b, c, d float64) float64 {
 	t /= d
 	return c*t*t + b
 }
 
+func easeOutQuad(t, b, c, d float64) float64 {
+	t /= d
+	return -c*t*(t-2.0) + b
+}
 
+func easeInOutQuad(t, b, c, d float64) float64 {
+	t /= d/2.0
+	if t < 1 {
+		return c/2.0*t*t + b
+
+	}
+	t = t - 1
+	return -c/2.0 * (t*(t-2) - 1) + b
+}
+
+func easeInCubic(t, b, c, d float64) float64 {
+	t /= d
+	return c*t*t*t + b
+
+}
+
+func easeOutCubic(t, b, c, d float64) float64 {
+	t /= d
+	t = t - 1
+	return c*(t*t*t + 1) + b
+
+}
+
+func easeInOutCubic(t, b, c, d float64) float64 {
+	t /= d/2.0
+	if t < 1 {
+		return c/2.0*t*t*t + b
+
+	}
+	t = t - 2
+	return c/2.0 * (t*t*t + 2) + b
+
+}
+
+func easeInQuart(t, b, c, d float64) float64 {
+	t /= d
+	return c*t*t*t*t + b
+
+}
+
+func easeOutQuart(t, b, c, d float64) float64 {
+	t /= d
+	t = t - 1
+	return -c*(t*t*t*t - 1) + b
+
+}
+
+func easeInOutQuart(t, b, c, d float64) float64 {
+	t /= d/2.0
+	if t < 1 {
+		return c/2.0*t*t*t*t + b
+
+	}
+	t = t - 2
+	return -c/2.0 * (t*t*t*t - 2) + b
+}
+
+func easeInQuint(t, b, c, d float64) float64 {
+	t /= d
+	return c*t*t*t*t*t + b
+
+}
+
+func easeOutQuint(t, b, c, d float64) float64 {
+	t /= d
+	t = t - 1
+	return c*(t*t*t*t*t + 1) + b
+
+}
+
+func easeInOutQuint(t, b, c, d float64) float64 {
+	t /= d/2.0
+	if t < 1 {
+		return c/2.0*t*t*t*t*t + b
+	}
+	t = t - 2
+	return c/2.0 * (t*t*t*t*t + 2) + b
+}
+
+func easeInSine(t, b, c, d float64) float64 {
+	return -c * math.Cos(t/d * (math.Pi/2.0)) + c + b
+
+}
+
+func easeOutSine(t, b, c, d float64) float64 {
+	return c * math.Sin(t/d * (math.Pi/2.0)) + b
+
+}
+func easeInOutSine(t, b, c, d float64) float64 {
+	return -c/2.0 * (math.Cos(math.Pi*t/d) - 1) + b
+
+}
+
+func easeInExpo(t, b, c, d float64) float64 {
+	return c * math.Pow(2, 10*(t/d - 1)) + b
+}
+
+func easeOutExpo(t, b, c, d float64) float64 {
+	return c * (-math.Pow(2.0, -10.0 * t/d) + 1) + b
+}
+
+func easeInOutExpo(t, b, c, d float64) float64 {
+	t /= d/2.0
+	if t < 1 {
+		return c/2.0 * math.Pow(2.0, 10.0 * (t-1)) + b
+
+	}
+	t = t - 1
+	return c/2.0 * (-math.Pow(2,-10*t) + 2) + b
+}
+
+func easeInCirc(t, b, c, d float64) float64 {
+	t /= d
+	return -c * (math.Sqrt(1 - t*t) - 1) + b
+
+}
+func easeOutCirc(t, b, c, d float64) float64 {
+	t /= d
+	t = t - 1
+	return c * math.Sqrt(1 - t*t) + b
+
+}
+
+func easeInOutCirc(t, b, c, d float64) float64 {
+	t /= d/2.0
+	if t < 1 {
+		return -c/2.0 * (math.Sqrt(1 - t*t) - 1)
+
+	}
+	t = t - 2	
+	return c/2.0 * (math.Sqrt(1 - t*t) + 1) + b
+
+}
 // func (t Tweener) To(tag string) *Tweener {
 
 // }
