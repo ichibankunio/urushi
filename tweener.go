@@ -67,8 +67,6 @@ func SecToFrame(sec float64) float64 {
 }
 
 func (t *Tweener) Update(cc int) (float64, bool) {
-	// t.sigma ++
-	// t.sigma += (t.dst-t.start) / t.duration
 	var value float64
 	switch t.easing {
 	case EaseLinear:

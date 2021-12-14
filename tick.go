@@ -8,13 +8,17 @@ type TickF struct {
 	contentCounter int
 	repeat int
 	pause bool
-	// content2 func(int, ...TickOptions) bool
 }
 
-// type TickOptions struct {
-// 	target interface{}
-// 	tweener Tweener
-// }
+type Tick struct {
+	span float64
+	content func(int, []interface{}) bool
+	contentCounter int
+	repeat int
+	pause bool
+	startCall bool
+	deltaTimeSum float64
+}
 
 func (t *TickF) rewind() {
 	t.contentCounter = 0
@@ -36,32 +40,53 @@ func (t *TickF) Update(g *Game, i ...interface{}) {
 	}
 }
 
-func NewTickF(span int, pause bool, repeat int, content func(int, []interface{}) bool) *TickF {
+func NewTickF(spanFrame int, pause bool, repeat int, content func(int, []interface{}) bool) *TickF {
 	return &TickF{
-		span: span,
+		span: spanFrame,
 		content: content,
 		pause: pause,
 		repeat: repeat,
 	}
 }
 
-// func NewTickF2(span int, content func (int, ...TickOptions) bool) *TickF {
-// 	return &TickF{
-// 		span: span,
-// 		content2: content,
-// 	}
-// }
+func (t *Tick) rewind() {
+	var d float64
+	if t.startCall {
+		d = t.span
+	}
+	t.deltaTimeSum = d
+	t.contentCounter = 0
+	t.pause = true
+}
 
-// func (t *TickF) Update2(g *Game, i ...interface{}) {
-// 	if g.counter % t.span == 0 {
-// 		if ebiten.MaxTPS() == 30 {
-// 			t.content(t.contentCounter, i)
-// 		}
-// 		if t.content(t.contentCounter, i) {
-// 			// t.rewind()
-// 		}else {
-// 			t.contentCounter++
-// 		}
-// 	}
-// }
+func (t *Tick) Update(g *Game, i ...interface{}) {
+	if !t.pause {
+		t.deltaTimeSum += g.deltaTime
+		if t.deltaTimeSum >= t.span {
+			if t.content(t.contentCounter, i) || (t.contentCounter == t.repeat - 1 && t.repeat != -1) {
+				t.rewind()
+			}else {
+				t.deltaTimeSum = 0
+				t.contentCounter ++
+			}
+			
+		}
+	}
+}
+
+func NewTick(spanSec float64, pause bool, repeat int, startCall bool, content func(int, []interface{}) bool) *Tick {
+	var d float64
+	if startCall {
+		d = spanSec
+	}
+
+	return &Tick{
+		span: spanSec,
+		content: content,
+		startCall: startCall,
+		deltaTimeSum: d,
+		pause: pause, 
+	}
+}
+
 
