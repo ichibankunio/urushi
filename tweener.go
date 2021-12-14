@@ -9,9 +9,11 @@ type Tweener struct {
 	start float64
 	delta float64
 	sigma float64
+	dst float64
+	duration float64
 }
 
-func NewTweener(start float64) *Tweener {
+func NewTweener(start float64, dst float64, duration float64) *Tweener {
 	return &Tweener{
 		Repeat: 0,
 		Target: nil,
@@ -19,14 +21,16 @@ func NewTweener(start float64) *Tweener {
 		start: start,
 		delta: 0,
 		sigma: 0,
+		dst: dst,
+		duration: duration,
 		// Easing: 0,
 	}
 }
 
-func (t *Tweener) Update(cc int, destination float64) (float64, bool) {
-	value := easeIn(float64(cc), t.start, destination - t.start, t.sigma)
+func (t *Tweener) Update(cc int) (float64, bool) {
+	value := easeIn(float64(cc), t.start, t.dst - t.start, t.sigma)
 	// t.delta = value - t.start
-	t.sigma ++
+	t.sigma += (t.dst-t.start) / t.duration
 
 	return value, false
 }
