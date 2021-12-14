@@ -33,7 +33,7 @@ func (t *Tweener) Update(cc int) (float64, bool) {
 	value := easeIn(float64(cc), t.start, t.dst - t.start, t.sigma)
 	// t.delta = value - t.start
 
-	return value, false
+	return value, value == t.dst
 }
 
 func easeIn(t, b, c, d float64) float64 {
