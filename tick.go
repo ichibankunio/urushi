@@ -27,7 +27,7 @@ func (t *TickF) Update(g *Game, i ...interface{}) {
 			if ebiten.MaxTPS() == 30 {
 				t.content(t.contentCounter, i)
 			}
-			if t.content(t.contentCounter, i) || (t.contentCounter == t.repeat - 1 && t.repeat == -1) {
+			if t.content(t.contentCounter, i) || (t.contentCounter == t.repeat - 1 && t.repeat != -1) {
 				t.rewind()
 			}else {
 				t.contentCounter++
