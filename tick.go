@@ -7,7 +7,7 @@ type TickF struct {
 	content func(int, []interface{}) bool
 	contentCounter int
 	repeat int
-	tweener Tweener
+	pause bool
 	// content2 func(int, ...TickOptions) bool
 }
 
@@ -16,23 +16,32 @@ type TickF struct {
 // 	tweener Tweener
 // }
 
+func (t *TickF) rewind() {
+	t.contentCounter = 0
+	t.pause = true
+}
+
 func (t *TickF) Update(g *Game, i ...interface{}) {
-	if g.counter % t.span == 0 {
-		if ebiten.MaxTPS() == 30 {
-			t.content(t.contentCounter, i)
-		}
-		if t.content(t.contentCounter, i) {
-			// t.rewind()
-		}else {
-			t.contentCounter++
+	if !t.pause {
+		if g.counter % t.span == 0 {
+			if ebiten.MaxTPS() == 30 {
+				t.content(t.contentCounter, i)
+			}
+			if t.content(t.contentCounter, i) || t.contentCounter == t.repeat - 1 {
+				t.rewind()
+			}else {
+				t.contentCounter++
+			}
 		}
 	}
 }
 
-func NewTickF(span int, content func(int, []interface{}) bool) *TickF {
+func NewTickF(span int, pause bool, repeat int, content func(int, []interface{}) bool) *TickF {
 	return &TickF{
 		span: span,
 		content: content,
+		pause: pause,
+		repeat: repeat,
 	}
 }
 
