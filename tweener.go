@@ -30,9 +30,9 @@ func NewTweener(start float64, dst float64, duration float64) *Tweener {
 }
 
 func (t *Tweener) Update(cc int) (float64, bool) {
+	t.sigma ++
 	// t.sigma += (t.dst-t.start) / t.duration
 	value := easeIn(float64(cc * int(t.ccRatio)), t.start, t.dst - t.start, t.sigma)
-	t.sigma += 1 / 60
 	// t.delta = value - t.start
 
 	return value, value == t.dst
