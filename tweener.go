@@ -8,10 +8,6 @@ import (
 
 
 type Tweener struct {
-	Repeat int
-	Target interface{}
-	Delay int
-	// Easing EasingMode
 	begin float64
 	end float64
 	duration float64
@@ -52,9 +48,6 @@ func NewTweener(begin float64, end float64, duration float64, easing Easing) *Tw
 		duration /= 2
 	}
 	return &Tweener{
-		Repeat: 0,
-		Target: nil,
-		Delay:  0,
 		begin: begin,
 		end: end,
 		duration: duration,
