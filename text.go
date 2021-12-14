@@ -20,7 +20,7 @@ type TxtSpr struct {
 	hidden bool
 }
 
-func NewTxtSpr(txt string, x, y float64, clr color.Color, bgClr color.Color, font font.Face, padUp, padLeft int) *TextSprite {
+func NewTxtSpr(txt string, x, y float64, clr color.Color, bgClr color.Color, font font.Face, padUp, padLeft int) *TxtSpr {
 	var bgImg *ebiten.Image
 
 	width := text.BoundString(font, txt).Dx()

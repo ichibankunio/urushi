@@ -19,14 +19,14 @@ type TxtSprShadow struct {
 	shadowX int
 	shadowY int
 
-	front *TextSprite
-	back *TextSprite
+	front *TxtSpr
+	back *TxtSpr
 
 	hidden bool
 	alpha float64
 }
 
-func NewTxtSprShadow(txt string, x, y float64, clr color.Color, shadowClr color.Color, font font.Face, padUp, padLeft, shadowX, shadowY int, isVert bool) *TextSpriteShadow {
+func NewTxtSprShadow(txt string, x, y float64, clr color.Color, shadowClr color.Color, font font.Face, padUp, padLeft, shadowX, shadowY int, isVert bool) *TxtSprShadow {
 	var bgImg *ebiten.Image
 	if isVert {
 		height := font.Metrics().Height.Ceil() * len([]rune(txt))
@@ -35,8 +35,8 @@ func NewTxtSprShadow(txt string, x, y float64, clr color.Color, shadowClr color.
 		width := text.BoundString(font, txt).Dx()
 		bgImg = ebiten.NewImage(width+padLeft*2, font.Metrics().Height.Ceil()+padUp*2)
 	}
-	back := NewTextSprite(txt, x + float64(shadowX), y + float64(shadowY), shadowClr, color.Transparent, font, padUp, padLeft)
-	front := NewTextSprite(txt, x, y, clr, color.Transparent, font, padUp, padLeft)
+	back := NewTxtSpr(txt, x + float64(shadowX), y + float64(shadowY), shadowClr, color.Transparent, font, padUp, padLeft)
+	front := NewTxtSpr(txt, x, y, clr, color.Transparent, font, padUp, padLeft)
 	
 	tss := &TxtSprShadow{
 		txt: txt,
