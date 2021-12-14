@@ -11,6 +11,8 @@ type Tweener struct {
 	sigma float64
 	dst float64
 	duration float64
+
+	ccRatio float64
 }
 
 func NewTweener(start float64, dst float64, duration float64) *Tweener {
@@ -23,14 +25,14 @@ func NewTweener(start float64, dst float64, duration float64) *Tweener {
 		sigma: 0,
 		dst: dst,
 		duration: duration,
-		// Easing: 0,
+		ccRatio: (dst-start) / duration,
 	}
 }
 
 func (t *Tweener) Update(cc int) (float64, bool) {
-	t.sigma ++
 	// t.sigma += (t.dst-t.start) / t.duration
-	value := easeIn(float64(cc), t.start, t.dst - t.start, t.sigma)
+	value := easeIn(float64(cc * int(t.ccRatio)), t.start, t.dst - t.start, t.sigma)
+	t.sigma += 1 / 60
 	// t.delta = value - t.start
 
 	return value, value == t.dst
