@@ -1,41 +1,52 @@
 package urushi
 
+import "github.com/hajimehoshi/ebiten/v2"
+
 
 type Tweener struct {
 	Repeat int
 	Target interface{}
 	Delay int
 	// Easing EasingMode
-	start float64
-	delta float64
-	sigma float64
-	dst float64
+	begin float64
+	end float64
 	duration float64
-
-	ccRatio float64
+	easing Easing
 }
 
-func NewTweener(start float64, dst float64, duration float64) *Tweener {
+type Easing int
+
+const (
+	EaseIn Easing = iota
+)
+
+func NewTweener(begin float64, end float64, duration float64, easing Easing) *Tweener {
 	return &Tweener{
 		Repeat: 0,
 		Target: nil,
 		Delay:  0,
-		start: start,
-		delta: 0,
-		sigma: 0,
-		dst: dst,
+		begin: begin,
+		end: end,
 		duration: duration,
-		ccRatio: (dst-start) / duration,
+		easing: easing,
 	}
+}
+
+func SecToFrame(sec float64) float64 {
+	return sec * float64(ebiten.MaxTPS())
 }
 
 func (t *Tweener) Update(cc int) (float64, bool) {
 	// t.sigma ++
 	// t.sigma += (t.dst-t.start) / t.duration
-	value := easeIn(float64(cc), t.start, t.dst - t.start, t.duration)
+	var value float64
+	switch t.easing {
+	case EaseIn:
+		value = easeIn(float64(cc), t.begin, t.end - t.begin, t.duration)
+	}
 	// t.delta = value - t.start
 
-	return value, value == t.dst
+	return value, value == t.end
 }
 
 func easeIn(t, b, c, d float64) float64 {
