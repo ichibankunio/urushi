@@ -23,9 +23,9 @@ func NewTweener(start float64) *Tweener {
 	}
 }
 
-func (t *Tweener) Update(cc int) (float64, bool) {
-	value := easeIn(float64(cc), t.start, t.delta, t.sigma)
-	t.delta = value - t.start
+func (t *Tweener) Update(cc int, destination float64) (float64, bool) {
+	value := easeIn(float64(cc), t.start, destination - t.start, t.sigma)
+	// t.delta = value - t.start
 	t.sigma ++
 
 	return value, false
