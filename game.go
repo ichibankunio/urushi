@@ -3,6 +3,8 @@ package urushi
 import (
 	"math"
 	"time"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type Game struct {
@@ -10,7 +12,12 @@ type Game struct {
 	thisFrameTime int
 	deltaTime float64
 	counter int
+
+	scenes []*Scene
+	State SceneID
 }
+
+type SceneID int
 
 func (g *Game) Update() {
 	g.thisFrameTime = time.Now().Nanosecond()
@@ -22,4 +29,25 @@ func (g *Game) Update() {
 	g.lastFrameTime = g.thisFrameTime
 
 	g.counter++
+
+	for _, scene := range g.scenes {
+		if g.State == scene.ID {
+			scene.Update(g)
+
+			break
+		}
+	}
+}
+
+func (g *Game) Draw(screen *ebiten.Image) {
+	for _, scene := range g.scenes {
+		if g.State == scene.ID {
+			scene.Draw(screen)
+			break
+		}
+	}
+}
+
+func (g *Game) AddScene(scene *Scene) {
+	g.scenes = append(g.scenes, scene)
 }
