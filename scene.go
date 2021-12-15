@@ -3,7 +3,7 @@ package urushi
 import "github.com/hajimehoshi/ebiten/v2"
 
 type Scene struct {
-	Update func(*Game)
+	Update func(*Game) error
 	Draw func(*ebiten.Image)
 	ID SceneID
 }

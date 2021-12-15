@@ -19,7 +19,7 @@ type Game struct {
 
 type SceneID int
 
-func (g *Game) Update() {
+func (g *Game) Update() error {
 	g.thisFrameTime = time.Now().Nanosecond()
 	
 	g.deltaTime = float64(g.thisFrameTime-g.lastFrameTime) / math.Pow(10, float64(int(math.Log10(float64(g.thisFrameTime-g.lastFrameTime))+2)))
@@ -32,11 +32,13 @@ func (g *Game) Update() {
 
 	for _, scene := range g.scenes {
 		if g.State == scene.ID {
-			scene.Update(g)
-
-			break
+			err := scene.Update(g)
+			
+			return err
 		}
 	}
+
+	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
