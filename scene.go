@@ -1,6 +1,10 @@
 package urushi
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"image/color"
+
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type Scene struct {
 	Update func(*Game) error
@@ -8,20 +12,26 @@ type Scene struct {
 	ID SceneID
 }
 
-// func NewScene(update func(*Game), draw func(*ebiten.Image)) *Scene {
-//     return &Scene{
-// 		Update: 
-// 	}
-// }
+func ShiftSceneWithExpandingSprite(spr Sprite, clr color.Color, ID SceneID) *Scene {
+	return &Scene{
+		Update: func(g *Game) error {
+			return nil
+		},
+		Draw: func(screen *ebiten.Image) {
+			
+		},
+		ID: ID,
+	}
+}
 
-// func (s *Scene) Update(g *Game) {
-
-// }
-
-// func (s *Scene) Draw(screen *ebiten.Image) {
-
-// }
-
-func ShiftSceneWithExpandingImage(next int) {
-
+func ShiftSceneWithShrinkingSprite(spr Sprite, clr color.Color, ID SceneID) *Scene {
+	return &Scene{
+		Update: func(g *Game) error {
+			return nil
+		},
+		Draw: func(screen *ebiten.Image) {
+			
+		},
+		ID: ID,
+	}
 }
