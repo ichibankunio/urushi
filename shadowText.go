@@ -61,9 +61,18 @@ func (t *TxtSprShadow) SetText(txt string) {
 
 func (t *TxtSprShadow) Draw(screen *ebiten.Image) {
 	if !t.Hidden {
-		t.Spr.Draw(screen)
-		text.Draw(screen, t.Txt, t.Font, int(t.Spr.X) + t.PadLeft + t.ShadowX, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp + t.ShadowY, t.ShadowClr)
-		text.Draw(screen, t.Txt, t.Font, int(t.Spr.X) + t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, t.Clr)
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft + t.ShadowX), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp + t.ShadowY))
+		op.ColorM.Scale(colorToScale(t.ShadowClr))
+		text.DrawWithOptions(screen, t.Txt, t.Font, op)
+
+		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp))
+		op.ColorM.Scale(colorToScale(t.Clr))
+		text.DrawWithOptions(screen, t.Txt, t.Font, op)
+
+		// t.Spr.Draw(screen)
+		// text.Draw(screen, t.Txt, t.Font, int(t.Spr.X) + t.PadLeft + t.ShadowX, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp + t.ShadowY, t.ShadowClr)
+		// text.Draw(screen, t.Txt, t.Font, int(t.Spr.X) + t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, t.Clr)
 		// text.Draw(t.Spr.Img, t.Txt, t.Font, t.PadLeft + t.ShadowX, -t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp + t.ShadowY, t.ShadowClr)
 		// text.Draw(t.Spr.Img, t.Txt, t.Font, t.PadLeft, -t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, t.Clr)
 		// t.Spr.Draw(screen)
