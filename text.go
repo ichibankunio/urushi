@@ -79,7 +79,7 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 
 			op := &ebiten.DrawImageOptions{}
 			op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp))
-			op.ColorM.Translate(formatColor(t.Clr))
+			// op.ColorM.Translate(formatColor(t.Clr))
 			text.DrawWithOptions(screen, t.Txt, t.Font, op)
 
 			// text.DrawWithOptions(screen, t.Txt, t.Font, int(t.Spr.X)+t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, op)
