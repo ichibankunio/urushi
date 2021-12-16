@@ -75,11 +75,21 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 				}
 			}
 		} else {
-			t.Spr.Draw(screen)
-			text.Draw(screen, t.Txt, t.Font, int(t.Spr.X)+t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, t.Clr)
+			// t.Spr.Draw(screen)
+
+			op := &ebiten.DrawImageOptions{}
+			op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp))
+			op.ColorM.Translate(formatColor(t.Clr))
+			text.DrawWithOptions(screen, t.Txt, t.Font, op)
+
+			// text.DrawWithOptions(screen, t.Txt, t.Font, int(t.Spr.X)+t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, op)
 			// text.Draw(t.Spr.Img, t.Txt, t.Font, t.PadLeft, -t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, t.Clr)
 			// t.Spr.Draw(screen)
 		}
 	}
+}
 
+func formatColor(clr color.Color) (float64, float64, float64, float64) {
+	r, g, b, a := clr.RGBA()
+	return float64(r), float64(g), float64(b), float64(a)
 }
