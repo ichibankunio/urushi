@@ -79,7 +79,7 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 
 			op := &ebiten.DrawImageOptions{}
 			op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp))
-			// op.ColorM.Translate(formatColor(t.Clr))
+			op.ColorM.Translate(255, 0, 0, 255)
 			text.DrawWithOptions(screen, t.Txt, t.Font, op)
 
 			// text.DrawWithOptions(screen, t.Txt, t.Font, int(t.Spr.X)+t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, op)
@@ -89,7 +89,11 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 	}
 }
 
+func intToColor(i []int) color.RGBA {
+	return color.RGBA{uint8(i[0]), uint8(i[1]), uint8(i[2]), uint8(i[3])}
+}
+
 func formatColor(clr color.Color) (float64, float64, float64, float64) {
 	r, g, b, a := clr.RGBA()
-	return float64(r), float64(g), float64(b), float64(a)
+	return float64(uint8(r)), float64(g), float64(b), float64(a)
 }
