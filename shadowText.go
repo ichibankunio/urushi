@@ -9,62 +9,60 @@ import (
 )
 
 type TxtSprShadow struct {
-	spr *Sprite
-	txt string
-	clr color.Color
-	shadowClr color.Color
-	font font.Face
-	padUp int
-	padLeft int
-	shadowX int
-	shadowY int
+	Spr *Sprite
+	Txt string
+	Clr color.Color
+	ShadowClr color.Color
+	Font font.Face
+	PadUp int
+	PadLeft int
+	ShadowX int
+	ShadowY int
 
-	front *TxtSpr
-	back *TxtSpr
-
-	hidden bool
-	alpha float64
+	Hidden bool
 }
 
-func NewTxtSprShadow(txt string, x, y float64, clr color.Color, shadowClr color.Color, font font.Face, padUp, padLeft, shadowX, shadowY int, isVert bool) *TxtSprShadow {
+func NewTxtSprShadow(txt string, x, y float64, clr color.Color, shadowClr color.Color, font font.Face, padUp, padLeft, shadowX, shadowY int, hidden bool) *TxtSprShadow {
 	var bgImg *ebiten.Image
-	if isVert {
-		height := font.Metrics().Height.Ceil() * len([]rune(txt))
-		bgImg = ebiten.NewImage(font.Metrics().Height.Ceil()+padLeft*2, height+padUp*2)
-	} else {
-		width := text.BoundString(font, txt).Dx()
-		bgImg = ebiten.NewImage(width+padLeft*2, font.Metrics().Height.Ceil()+padUp*2)
-	}
-	back := NewTxtSpr(txt, x + float64(shadowX), y + float64(shadowY), shadowClr, color.Transparent, font, padUp, padLeft)
-	front := NewTxtSpr(txt, x, y, clr, color.Transparent, font, padUp, padLeft)
+	width := text.BoundString(font, txt).Dx()
+	bgImg = ebiten.NewImage(width+padLeft*2, font.Metrics().Height.Ceil()+padUp*2)
+	
+	// back := NewTxtSpr(txt, x + float64(shadowX), y + float64(shadowY), shadowClr, color.Transparent, font, padUp, padLeft)
+	// front := NewTxtSpr(txt, x, y, clr, color.Transparent, font, padUp, padLeft)
 	
 	tss := &TxtSprShadow{
-		txt: txt,
-		clr: clr,
-		shadowClr: shadowClr,
-		spr: NewSprite(bgImg, x, y),
-		font: font,
-		padUp: padUp,
-		padLeft: padLeft,
-		shadowX: shadowX,
-		shadowY: shadowY,
-		back: back,
-		front: front,
-		hidden: false,
-		alpha: 1,
+		Txt: txt,
+		Clr: clr,
+		ShadowClr: shadowClr,
+		Spr: NewSprite(bgImg, x, y),
+		Font: font,
+		PadUp: padUp,
+		PadLeft: padLeft,
+		ShadowX: shadowX,
+		ShadowY: shadowY,
+		Hidden: false,
 	}
 	return tss
 }
 
-func (tss *TxtSprShadow) SetCenter(center int) {
-	width := text.BoundString(tss.font, tss.txt).Dx()
-	tss.spr.X = float64(center - width/2 - tss.padLeft)
+func (t *TxtSprShadow) SetCenter(center int) {
+	width := text.BoundString(t.Font, t.Txt).Dx()
+	t.Spr.X = float64(center - width/2 - t.PadLeft)
 }
 
-func (tss *TxtSprShadow) Draw(screen *ebiten.Image) {
-	if !tss.hidden {
-		tss.spr.Draw(screen)
-		text.Draw(screen, tss.txt, tss.font, int(tss.spr.X)+tss.padLeft + tss.shadowX, int(tss.spr.Y)-tss.font.Metrics().Height.Ceil()/8+tss.font.Metrics().Height.Ceil()+tss.padUp + tss.shadowY, tss.shadowClr)
-		text.Draw(screen, tss.txt, tss.font, int(tss.spr.X)+tss.padLeft, int(tss.spr.Y)-tss.font.Metrics().Height.Ceil()/8+tss.font.Metrics().Height.Ceil()+tss.padUp, tss.clr)
+func (t *TxtSprShadow) SetText(txt string) {
+	t.Txt = txt
+	width := text.BoundString(t.Font, txt).Dx()
+	if width+t.PadLeft*2 == 0 {
+		width = 1
+	}
+	t.Spr.Img = ebiten.NewImage(width+t.PadLeft*2, t.Font.Metrics().Height.Ceil()+t.PadUp*2)
+}
+
+func (t *TxtSprShadow) Draw(screen *ebiten.Image) {
+	if !t.Hidden {
+		text.Draw(t.Spr.Img, t.Txt, t.Font, t.PadLeft + t.ShadowX, -t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp + t.ShadowY, t.ShadowClr)
+		text.Draw(t.Spr.Img, t.Txt, t.Font, t.PadLeft, -t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, t.Clr)
+		t.Spr.Draw(screen)
 	}
 }
