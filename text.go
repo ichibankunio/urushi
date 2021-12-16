@@ -92,7 +92,7 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 
 func colorToScale(clr color.Color) (float64, float64, float64, float64) {
 	r, g, b, a := clr.RGBA()
-	return float64(r) / 255, float64(g)/ 255, float64(b)/ 255, float64(a) / 255
+	return float64(r) / 255, float64(g)/ 255, float64(b)/ 255, float64(a)
 }
 
 func intToColor(i []int) color.RGBA {
