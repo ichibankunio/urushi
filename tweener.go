@@ -41,6 +41,10 @@ const (
 	EaseInExpo
 	EaseOutExpo
 	EaseInOutExpo
+
+	EaseInCirc
+	EaseOutCirc
+	EaseInOutCirc
 )
 
 func NewTweener(begin float64, end float64, duration float64, easing Easing) *Tweener {
@@ -106,6 +110,13 @@ func (t *Tweener) Update(cc int) (float64, bool) {
 		value = easeOutExpo(float64(cc), t.begin, t.end - t.begin, t.duration)
 	case EaseInOutExpo:
 		value = easeInOutExpo(float64(cc), t.begin, t.end - t.begin, t.duration)
+	
+	case EaseInCirc:
+		value = easeInCirc(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseOutCirc:
+		value = easeOutCirc(float64(cc), t.begin, t.end - t.begin, t.duration)
+	case EaseInOutCirc:
+		value = easeInOutCirc(float64(cc), t.begin, t.end - t.begin, t.duration)
 	}
 	
 
