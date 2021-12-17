@@ -25,7 +25,8 @@ type TxtSprShadow struct {
 func NewTxtSprShadow(txt string, x, y float64, clr color.Color, shadowClr color.Color, font font.Face, padUp, padLeft, shadowX, shadowY int, hidden bool) *TxtSprShadow {
 	var bgImg *ebiten.Image
 	width := text.BoundString(font, txt).Dx()
-	bgImg = ebiten.NewImage(width+padLeft*2, font.Metrics().Height.Ceil()+padUp*2)
+	// bgImg = ebiten.NewImage(width+padLeft*2, font.Metrics().Height.Ceil()+padUp*2)
+	bgImg = ebiten.NewImage(width+padLeft*2+shadowX, -text.BoundString(font, txt).Bounds().Min.Y + text.BoundString(font, txt).Bounds().Max.Y+padUp*2 + shadowY)
 	
 	// back := NewTxtSpr(txt, x + float64(shadowX), y + float64(shadowY), shadowClr, color.Transparent, font, padUp, padLeft)
 	// front := NewTxtSpr(txt, x, y, clr, color.Transparent, font, padUp, padLeft)
@@ -62,11 +63,13 @@ func (t *TxtSprShadow) SetText(txt string) {
 func (t *TxtSprShadow) Draw(screen *ebiten.Image) {
 	if !t.Hidden {
 		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft + t.ShadowX), t.Spr.Y-float64(-t.Font.Metrics().Height.Ceil() + t.PadUp + t.ShadowY))
+		op.GeoM.Translate(t.Spr.X + float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.X + t.PadLeft + t.ShadowX), t.Spr.Y+float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.Y + t.PadUp + t.ShadowY))
 		op.ColorM.Scale(colorToScale(t.ShadowClr))
+
 		text.DrawWithOptions(screen, t.Txt, t.Font, op)
 
-		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(-t.Font.Metrics().Height.Ceil() + t.PadUp))
+		op.GeoM.Translate(t.Spr.X + float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.X + t.PadLeft), t.Spr.Y+float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.Y + t.PadUp))
+
 		op.ColorM.Scale(colorToScale(t.Clr))
 		text.DrawWithOptions(screen, t.Txt, t.Font, op)
 
