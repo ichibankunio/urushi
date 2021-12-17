@@ -35,8 +35,8 @@ func NewTxtSpr(txt string, x, y float64, clr color.Color, font font.Face, padUp,
 		Spr: NewSprite(bgImg, x, y),
 		Clr: clr,
 		Font: font,
-		PadUp: 0,
-		PadLeft: 0,
+		PadUp: padUp,
+		PadLeft: padLeft,
 		Hidden: hidden,
 	}
 	return t
@@ -78,7 +78,7 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 			// t.Spr.Draw(screen)
 
 			op := &ebiten.DrawImageOptions{}
-			op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y+float64(t.PadUp))
+			op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp))
 			// op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y+float64(-t.Font.Metrics().Height.Ceil() + t.PadUp))
 			op.ColorM.Scale(colorToScale(t.Clr))
 			text.DrawWithOptions(screen, t.Txt, t.Font, op)
