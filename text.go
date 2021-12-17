@@ -75,21 +75,10 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 			}
 		} else {
 			t.Spr.Draw(screen)
-
-			
-
 			op := &ebiten.DrawImageOptions{}
-			// op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y+float64(t.PadUp))
-			// op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y+float64(t.Font.Metrics().Height.Ceil() - text.BoundString(t.Font, ".").Bounds().Min.Y + t.PadUp))
 			op.GeoM.Translate(t.Spr.X + float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.X + t.PadLeft), t.Spr.Y+float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.Y + t.PadUp))
-
-			// op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y+float64(-t.Font.Metrics().Height.Ceil() + t.PadUp))
 			op.ColorM.Scale(colorToScale(t.Clr))
 			text.DrawWithOptions(screen, t.Txt, t.Font, op)
-
-			// text.DrawWithOptions(screen, t.Txt, t.Font, int(t.Spr.X)+t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, op)
-			// text.Draw(t.Spr.Img, t.Txt, t.Font, t.PadLeft, -t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp, t.Clr)
-			// t.Spr.Draw(screen)
 		}
 	}
 }
