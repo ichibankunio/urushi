@@ -62,11 +62,11 @@ func (t *TxtSprShadow) SetText(txt string) {
 func (t *TxtSprShadow) Draw(screen *ebiten.Image) {
 	if !t.Hidden {
 		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft + t.ShadowX), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp + t.ShadowY))
+		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft + t.ShadowX), t.Spr.Y-float64(t.PadUp + t.ShadowY))
 		op.ColorM.Scale(colorToScale(t.ShadowClr))
 		text.DrawWithOptions(screen, t.Txt, t.Font, op)
 
-		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(t.Font.Metrics().Height.Ceil()/8+t.Font.Metrics().Height.Ceil()+t.PadUp))
+		op.GeoM.Translate(t.Spr.X + float64(t.PadLeft), t.Spr.Y-float64(t.PadUp))
 		op.ColorM.Scale(colorToScale(t.Clr))
 		text.DrawWithOptions(screen, t.Txt, t.Font, op)
 
