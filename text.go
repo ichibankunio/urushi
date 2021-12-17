@@ -26,7 +26,7 @@ func NewTxtSpr(txt string, x, y float64, clr color.Color, font font.Face, padUp,
 	if width+padLeft*2 == 0 {
 		width = 1
 	}
-	bgImg = ebiten.NewImage(width+padLeft*2, -text.BoundString(font, txt).Bounds().Max.Y+padUp*2)
+	bgImg = ebiten.NewImage(width+padLeft*2, text.BoundString(font, txt).Bounds().Max.Y+padUp*2)
 	bgImg.Fill(color.White)
 	// bgImg.Fill(bgClr)	
 
