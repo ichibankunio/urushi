@@ -83,7 +83,7 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 			for _, v := range []rune(t.Txt) {
 				s := string(v)
 				op := &ebiten.DrawImageOptions{}
-				op.GeoM.Translate(t.Spr.X + float64(t.Spr.Img.Bounds().Dx()-text.BoundString(t.Font, s).Bounds().Min.X + t.PadLeft), t.Spr.Y+ yPos + float64(-text.BoundString(t.Font, s).Bounds().Min.Y + t.PadUp))
+				op.GeoM.Translate(t.Spr.X - float64((t.Spr.Img.Bounds().Dx()-text.BoundString(t.Font, s).Bounds().Min.X) / 2 + t.PadLeft), t.Spr.Y+ yPos + float64(-text.BoundString(t.Font, s).Bounds().Min.Y + t.PadUp))
 				op.ColorM.Scale(colorToScale(t.Clr))
 				text.DrawWithOptions(screen, s, t.Font, op)
 
