@@ -5,7 +5,6 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
-	"github.com/mattn/go-runewidth"
 	"golang.org/x/image/font"
 )
 
@@ -88,7 +87,7 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 				yPos += -text.BoundString(font, txt).Bounds().Min.Y + text.BoundString(font, txt).Bounds().Max.Y
 
 			}
-			
+
 		} else {
 			t.Spr.Draw(screen)
 			op := &ebiten.DrawImageOptions{}
