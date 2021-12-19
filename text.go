@@ -27,7 +27,7 @@ func NewTxtSpr(txt string, x, y float64, clr color.Color, font font.Face, padUp,
 		width = 1
 	}
 	bgImg = ebiten.NewImage(width+padLeft*2, -text.BoundString(font, txt).Bounds().Min.Y + text.BoundString(font, txt).Bounds().Max.Y+padUp*2)
-	bgImg.Fill(bgClr)	
+	// bgImg.Fill(bgClr)	
 
 	t := &TxtSpr{
 		Txt: txt,
@@ -92,7 +92,7 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 				if s == "ー" {
 					s = "|"
 				}
-				
+
 				op := &ebiten.DrawImageOptions{}
 				op.GeoM.Translate(t.Spr.X - float64((t.Spr.Img.Bounds().Dx()-text.BoundString(t.Font, s).Bounds().Min.X) / 2 + t.PadLeft), t.Spr.Y+ yPos + float64(-text.BoundString(t.Font, s).Bounds().Min.Y + t.PadUp))
 				op.ColorM.Scale(colorToScale(t.Clr))
