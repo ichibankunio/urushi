@@ -3,8 +3,9 @@ package urushi
 import (
 	"image/color"
 
-	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
+	"github.com/mattn/go-runewidth"
 	"golang.org/x/image/font"
 )
 
@@ -15,7 +16,7 @@ type TxtSpr struct {
 	PadUp   int
 	PadLeft int
 	Font    font.Face
-	IsVert  bool
+	isVert  bool
 	Hidden bool
 }
 
@@ -42,7 +43,7 @@ func NewTxtSpr(txt string, x, y float64, clr color.Color, font font.Face, padUp,
 }
 
 func (t *TxtSpr) SetCenter(center int) {
-	if t.IsVert {
+	if t.isVert {
 		t.Spr.X = float64(center - t.Font.Metrics().Height.Ceil()/2 - t.PadLeft)
 	} else {
 		width := text.BoundString(t.Font, t.Txt).Dx()
@@ -59,20 +60,35 @@ func (t *TxtSpr) SetText(txt string) {
 	t.Spr.Img = ebiten.NewImage(width+t.PadLeft*2, t.Font.Metrics().Height.Ceil()+t.PadUp*2)
 }
 
+func (t *TxtSpr) SetVertical(vertical bool) {
+	height := 0
+	for i, v := range []rune(t.Txt) {
+		height += text.BoundString(font, txt).Dy()
+	}
+	if height+t.PadUp*2 == 0 {
+		height = 1
+	}
+
+	t.Spr.Img = ebiten.NewImage(font.Metrics().Height.Ceil()+padLeft*2, height+padUp*2)
+
+	t.isVert = true
+}
+
 func (t *TxtSpr) Draw(screen *ebiten.Image) {
 	if !t.Hidden {
-		if t.IsVert {
+		if t.isVert {
 			t.Spr.Draw(screen)
-		
+			yPos := 0.0
 			for i, v := range []rune(t.Txt) {
-				if string(v) == "、" || string(v) == "。" {
-					// Perhaps int(t.spr.x) is not good?
-					text.Draw(screen, string(v), t.Font, int(t.Spr.X)+t.PadLeft+t.Font.Metrics().Height.Ceil()-text.BoundString(t.Font, string(v)).Dx(), int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.PadUp+i*t.Font.Metrics().Height.Ceil()+t.Font.Metrics().Height.Ceil()-text.BoundString(t.Font, string(v)).Dy(), t.Clr)
-				} else {
-					text.Draw(screen, string(v), t.Font, int(t.Spr.X)+t.PadLeft, int(t.Spr.Y)-t.Font.Metrics().Height.Ceil()/8+t.PadUp+t.Font.Metrics().Height.Ceil()+i*t.Font.Metrics().Height.Ceil(), t.Clr)
-	
-				}
+				op := &ebiten.DrawImageOptions{}
+				op.GeoM.Translate(t.Spr.X + float64(t.Spr.Img.Bounds().Dx()-text.BoundString(t.Font, t.Txt).Bounds().Min.X + t.PadLeft), t.Spr.Y+ yPos + float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.Y + t.PadUp))
+				op.ColorM.Scale(colorToScale(t.Clr))
+				text.DrawWithOptions(screen, t.Txt, t.Font, op)
+
+				yPos += -text.BoundString(font, txt).Bounds().Min.Y + text.BoundString(font, txt).Bounds().Max.Y
+
 			}
+			
 		} else {
 			t.Spr.Draw(screen)
 			op := &ebiten.DrawImageOptions{}
