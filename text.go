@@ -78,13 +78,14 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 		if t.isVert {
 			t.Spr.Draw(screen)
 			yPos := 0.0
-			for i, v := range []rune(t.Txt) {
+			for _, v := range []rune(t.Txt) {
+				s := string(v)
 				op := &ebiten.DrawImageOptions{}
-				op.GeoM.Translate(t.Spr.X + float64(t.Spr.Img.Bounds().Dx()-text.BoundString(t.Font, t.Txt).Bounds().Min.X + t.PadLeft), t.Spr.Y+ yPos + float64(-text.BoundString(t.Font, t.Txt).Bounds().Min.Y + t.PadUp))
+				op.GeoM.Translate(t.Spr.X + float64(t.Spr.Img.Bounds().Dx()-text.BoundString(t.Font, s).Bounds().Min.X + t.PadLeft), t.Spr.Y+ yPos + float64(-text.BoundString(t.Font, s).Bounds().Min.Y + t.PadUp))
 				op.ColorM.Scale(colorToScale(t.Clr))
-				text.DrawWithOptions(screen, t.Txt, t.Font, op)
+				text.DrawWithOptions(screen, s, t.Font, op)
 
-				yPos += -text.BoundString(font, txt).Bounds().Min.Y + text.BoundString(font, txt).Bounds().Max.Y
+				yPos += float64(-text.BoundString(t.Font, s).Bounds().Min.Y + text.BoundString(t.Font, s).Bounds().Max.Y)
 
 			}
 
