@@ -61,11 +61,11 @@ func (t *TxtSpr) SetText(txt string) {
 
 func (t *TxtSpr) SetVertical(vertical bool) {
 	height := 0
-	for _, v := range []rune(t.Txt) {
+	height += t.Font.Metrics().Height.Ceil() * len([]rune(t.Txt))
+	// for _, v := range []rune(t.Txt) {
 		
-		// height += text.BoundString(t.Font, string(v)).Dy()
-		height += t.Font.Metrics().Height.Ceil()
-	}
+	// 	// height += text.BoundString(t.Font, string(v)).Dy()
+	// }
 	if height+t.PadUp*2 == 0 {
 		height = 1
 	}
