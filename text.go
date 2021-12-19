@@ -87,8 +87,8 @@ func (t *TxtSpr) Draw(screen *ebiten.Image) {
 				op.ColorM.Scale(colorToScale(t.Clr))
 				text.DrawWithOptions(screen, s, t.Font, op)
 
-				yPos += float64(-text.BoundString(t.Font, s).Bounds().Min.Y + text.BoundString(t.Font, s).Bounds().Max.Y)
-
+				// yPos += float64(-text.BoundString(t.Font, s).Bounds().Min.Y + text.BoundString(t.Font, s).Bounds().Max.Y)
+				yPos += float64(t.Font.Metrics().Height.Ceil())
 			}
 
 		} else {
