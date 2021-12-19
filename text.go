@@ -61,14 +61,14 @@ func (t *TxtSpr) SetText(txt string) {
 
 func (t *TxtSpr) SetVertical(vertical bool) {
 	height := 0
-	for i, v := range []rune(t.Txt) {
-		height += text.BoundString(font, txt).Dy()
+	for _, v := range []rune(t.Txt) {
+		height += text.BoundString(t.Font, string(v)).Dy()
 	}
 	if height+t.PadUp*2 == 0 {
 		height = 1
 	}
 
-	t.Spr.Img = ebiten.NewImage(font.Metrics().Height.Ceil()+padLeft*2, height+padUp*2)
+	t.Spr.Img = ebiten.NewImage(t.Font.Metrics().Height.Ceil()+t.PadLeft*2, height+t.PadUp*2)
 
 	t.isVert = true
 }
