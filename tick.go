@@ -44,7 +44,7 @@ func NewTickF(spanFrame int, pause bool, repeat int, content func(int, []interfa
 	return &TickF{
 		span: spanFrame,
 		content: content,
-		pause: pause,
+		Pause: pause,
 		repeat: repeat,
 	}
 }
