@@ -7,7 +7,7 @@ type TickF struct {
 	content func(int, []interface{}) bool
 	contentCounter int
 	repeat int
-	pause bool
+	Pause bool
 }
 
 type Tick struct {
@@ -15,18 +15,18 @@ type Tick struct {
 	content func(int, []interface{}) bool
 	contentCounter int
 	repeat int
-	pause bool
+	Pause bool
 	startCall bool
 	deltaTimeSum float64
 }
 
 func (t *TickF) rewind() {
 	t.contentCounter = 0
-	t.pause = true
+	t.Pause = true
 }
 
 func (t *TickF) Update(g *Game, i ...interface{}) {
-	if !t.pause {
+	if !t.Pause {
 		if g.counter % t.span == 0 {
 			if ebiten.MaxTPS() == 30 {
 				t.content(t.contentCounter, i)
@@ -56,11 +56,11 @@ func (t *Tick) rewind() {
 	}
 	t.deltaTimeSum = d
 	t.contentCounter = 0
-	t.pause = true
+	t.Pause = true
 }
 
 func (t *Tick) Update(g *Game, i ...interface{}) {
-	if !t.pause {
+	if !t.Pause {
 		t.deltaTimeSum += g.deltaTime
 		if t.deltaTimeSum >= t.span {
 			if t.content(t.contentCounter, i) || (t.contentCounter == t.repeat - 1 && t.repeat != -1) {
@@ -85,7 +85,7 @@ func NewTick(spanSec float64, pause bool, repeat int, startCall bool, content fu
 		content: content,
 		startCall: startCall,
 		deltaTimeSum: d,
-		pause: pause, 
+		Pause: pause, 
 	}
 }
 
