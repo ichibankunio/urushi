@@ -15,7 +15,7 @@ type Sprite struct {
 	Alpha float64
 	DrawOption func(*ebiten.DrawImageOptions)
 	
-	touchID ebiten.TouchID
+	TouchID ebiten.TouchID
 }
 
 func NewSprite(img *ebiten.Image, x, y float64) *Sprite {
