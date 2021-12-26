@@ -62,7 +62,7 @@ func (s *Sprite) IsJustTouched() bool {
 		for _, t := range touch {
 			x, y := ebiten.TouchPosition(t)
 			if x >= int(s.X) && x <= int(s.X)+s.Img.Bounds().Dx() && y >= int(s.Y) && y <= int(s.Y)+s.Img.Bounds().Dy() {
-				s.touchID = t
+				s.TouchID = t
 				return true
 			}
 		}
@@ -81,7 +81,7 @@ func (s *Sprite) IsTouchJustReleased() bool {
 		}
 	}
 
-	if inpututil.IsTouchJustReleased(s.touchID) {
+	if inpututil.IsTouchJustReleased(s.TouchID) {
 		return true
 	}
 
