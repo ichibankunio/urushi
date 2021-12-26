@@ -20,7 +20,7 @@ type Tick struct {
 	deltaTimeSum float64
 }
 
-func (t *TickF) rewind() {
+func (t *TickF) Rewind() {
 	t.contentCounter = 0
 	t.Pause = true
 }
@@ -32,7 +32,7 @@ func (t *TickF) Update(g *Game, i ...interface{}) {
 				t.content(t.contentCounter, i)
 			}
 			if t.content(t.contentCounter, i) || (t.contentCounter == t.repeat - 1 && t.repeat != -1) {
-				t.rewind()
+				t.Rewind()
 			}else {
 				t.contentCounter++
 			}
@@ -49,7 +49,7 @@ func NewTickF(spanFrame int, pause bool, repeat int, content func(int, []interfa
 	}
 }
 
-func (t *Tick) rewind() {
+func (t *Tick) Rewind() {
 	var d float64
 	if t.startCall {
 		d = t.span
@@ -64,7 +64,7 @@ func (t *Tick) Update(g *Game, i ...interface{}) {
 		t.deltaTimeSum += g.deltaTime
 		if t.deltaTimeSum >= t.span {
 			if t.content(t.contentCounter, i) || (t.contentCounter == t.repeat - 1 && t.repeat != -1) {
-				t.rewind()
+				t.Rewind()
 			}else {
 				t.deltaTimeSum = 0
 				t.contentCounter ++
