@@ -7,14 +7,14 @@ import (
 )
 
 type Scene struct {
-	Update func(*Game) error
+	Update func(*ebiten.Game) error
 	Draw func(*ebiten.Image)
 	ID SceneID
 }
 
 func ShiftSceneWithExpandingSprite(spr Sprite, clr color.Color, ID SceneID) *Scene {
 	return &Scene{
-		Update: func(g *Game) error {
+		Update: func(g *ebiten.Game) error {
 			return nil
 		},
 		Draw: func(screen *ebiten.Image) {
@@ -26,7 +26,7 @@ func ShiftSceneWithExpandingSprite(spr Sprite, clr color.Color, ID SceneID) *Sce
 
 func ShiftSceneWithShrinkingSprite(spr Sprite, clr color.Color, ID SceneID) *Scene {
 	return &Scene{
-		Update: func(g *Game) error {
+		Update: func(g *ebiten.Game) error {
 			return nil
 		},
 		Draw: func(screen *ebiten.Image) {
