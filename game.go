@@ -19,7 +19,7 @@ type Game struct {
 
 type SceneID int
 
-func (g *Game) Update(eg *ebiten.Game) error {
+func (g *Game) Update() error {
 	g.thisFrameTime = time.Now().Nanosecond()
 	
 	g.deltaTime = float64(g.thisFrameTime-g.lastFrameTime) / math.Pow(10, float64(int(math.Log10(float64(g.thisFrameTime-g.lastFrameTime))+2)))
