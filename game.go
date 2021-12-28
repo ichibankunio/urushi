@@ -32,7 +32,7 @@ func (g *Game) Update(eg *ebiten.Game) error {
 
 	for _, scene := range g.scenes {
 		if g.State == scene.ID {
-			err := scene.Update(eg)
+			err := scene.Update(g)
 			
 			return err
 		}
