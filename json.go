@@ -1,9 +1,9 @@
 package urushi
 
 import (
-	"encoding/json"
-	"log"
-	"image/color"
+	// "encoding/json"
+	// "log"
+	// "image/color"
 )
 
 type textJson struct {
@@ -26,15 +26,15 @@ type colorJson struct {
 	a uint32 `json:"a"`
 }
 
-func newTextArrayWithJson(b []byte) []*TxtSpr {
-	// JSONデコード
-	var textsJson []textJson
-	if err := json.Unmarshal(b, &textsJson); err != nil {
-		log.Fatal(err)
-	}
+// func newTextArrayWithJson(b []byte) []*TxtSpr {
+// 	// JSONデコード
+// 	var textsJson []textJson
+// 	if err := json.Unmarshal(b, &textsJson); err != nil {
+// 		log.Fatal(err)
+// 	}
 
-	var texts []*TxtSpr
-	for i, v := range textsJson {
-		texts = append(texts, NewTxtSpr(v.txt, v.x, v.y, color.RGBA{255, 0, 0, 255}, v.font, v.padX, v.padY, v.hidden))
-	}
-}
+// 	var texts []*TxtSpr
+// 	for i, v := range textsJson {
+// 		texts = append(texts, NewTxtSpr(v.txt, v.x, v.y, color.RGBA{255, 0, 0, 255}, v.font, v.padX, v.padY, v.hidden))
+// 	}
+// }
