@@ -88,7 +88,7 @@ func GetArray(tag string) []int {
 	return arr
 }
 
-func SetArray2(tag string, arr []int) {
+func SetArray2(tag string, arr []interface{}) {
 	window := js.Global().Get("window")
 	jsonJS := window.Get("JSON")
 	jsonStr := jsonJS.Call("stringify", js.ValueOf(arr)).String()
