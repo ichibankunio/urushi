@@ -95,12 +95,12 @@ func SetArray2(tag string, arr []int) {
 	SetItem(tag, jsonStr)
 }
 
-func GetArray2(tag string) []interface{}  {
-	window := js.Global().Get("window")
-	jsonJS := window.Get("JSON")
+// func GetArray2(tag string) []interface{}  {
+// 	window := js.Global().Get("window")
+// 	jsonJS := window.Get("JSON")
 	
-	return jsonJS.Call("parse", GetItem(tag).(string)).([]interface{})
-}
+// 	return jsonJS.Call("parse", GetItem(tag).(string)).([]interface{})
+// }
 
 func Clear() {
 	window := js.Global().Get("window")
