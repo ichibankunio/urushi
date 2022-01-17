@@ -99,7 +99,7 @@ func GetArray2(tag string) int {
 	window := js.Global().Get("window")
 	jsonJS := window.Get("JSON")
 	
-	return jsonJS.Call("parse", GetItem(tag).(string)).Length()
+	return jsonJS.Call("parse", GetItem(tag).(js.Value).String()).Length()
 }
 
 func Clear() {
