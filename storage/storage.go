@@ -68,7 +68,6 @@ func SetItem(tag string, a interface{}) {
 	window := js.Global().Get("window")
 	localStorage := window.Get("localStorage")
 	localStorage.Set(tag, a)
-	// js.Global().Get("localStorage").Call("setItem", a)
 }
 
 func SetArray(tag string, arr []int) {
