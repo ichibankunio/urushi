@@ -98,7 +98,6 @@ func SetArray2(tag string, arr []interface{}) {
 func GetArray2(tag string) int {
 	window := js.Global().Get("window")
 	jsonJS := window.Get("JSON")
-	println(GetItem(tag).(js.Value).String())
 	
 	return jsonJS.Call("parse", GetItem(tag).(js.Value).String()).Length()
 }
