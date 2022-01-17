@@ -38,13 +38,10 @@ func IsMobile() bool {
 	return r.MatchString(js.Global().Get("navigator").Get("userAgent").String()) 
 }
 
-func ShowAd() {
-	js.Global().Get("location").Set("href", "ad.html")
-}
-
-func Share() {
+func locationTo() {
 	js.Global().Get("location").Set("href", "index.html")
-}
+}	
+
 
 // func ShowQR(this js.Value, args []js.Value) interface{} {
 //     js.Global().Call("alert", "hello")
@@ -77,7 +74,6 @@ func SetArray(tag string, arr []int) {
 	}
 
 	SetItem(tag, arrStr)
-	// js.Global().Get("localStorage").Call("setItem", a)
 }
 
 func GetArray(tag string) []int {
@@ -90,6 +86,20 @@ func GetArray(tag string) []int {
 	}
 	
 	return arr
+}
+
+func SetArray2(tag string, arr []int) {
+	window := js.Global().Get("window")
+	jsonJS := window.Get("JSON")
+	jsonStr := jsonJS.Call("stringify", js.ValueOf(arr)).String()
+	SetItem(tag, jsonStr)
+}
+
+func GetArray2(tag string) []int  {
+	window := js.Global().Get("window")
+	jsonJS := window.Get("JSON")
+	
+	return jsonJS.Call("parse", GetItem(tag)).([]int)
 }
 
 func Clear() {
