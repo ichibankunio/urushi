@@ -2,9 +2,10 @@ package ui
 
 import (
 	"image/color"
+	"math"
 
-	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/ichibankunio/urushi"
 	"golang.org/x/image/font"
@@ -32,7 +33,8 @@ func newButtonImg(width, height int) *ebiten.Image {
 	bg.Fill(color.White)
 	src := ebiten.NewImage(1, 1)
 	src.Fill(color.Black)
-	line := height / 16
+	line := int(math.Min(float64(width), float64(height)) / 16)
+	
 	var path vector.Path
 
 	path.MoveTo(0, 0)
