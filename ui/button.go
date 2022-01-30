@@ -37,7 +37,6 @@ func (b *Button) Draw(screen *ebiten.Image) {
 
 func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 	bg := ebiten.NewImage(width, height)
-	bg.Fill(color.White)
 	src := ebiten.NewImage(1, 1)
 	src.Fill(color.Black)
 
@@ -49,6 +48,8 @@ func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 
 	switch theme {
 	case ThemeRect:
+		bg.Fill(color.White)
+
 		path.MoveTo(0, 0)
 		path.LineTo(float32(width), 0)
 		path.LineTo(float32(width), float32(height))
