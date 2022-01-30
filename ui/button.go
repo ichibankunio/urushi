@@ -1,4 +1,3 @@
-path.LineTo(l, h)
 package ui
 
 import (
