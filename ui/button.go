@@ -36,6 +36,12 @@ func (b *Button) Draw(screen *ebiten.Image) {
 	b.txt.Draw(screen)
 }
 
+func (b *Button) Update() {
+	if b.spr.IsTouched() {
+		b.spr.Alpha = 0.5
+	}
+}
+
 func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 	bg := ebiten.NewImage(width, height)
 	src := ebiten.NewImage(1, 1)
