@@ -71,6 +71,18 @@ func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 		path.ArcTo(0, h, 0, h-l, l)
 		path.LineTo(0, l)
 		path.ArcTo(0, 0, l, 0, l)
+
+		w -= l * 2
+		h -= l * 2
+		path.MoveTo(l, 0)
+		path.LineTo(w - l, 0)
+		path.ArcTo(w, 0, w, l, l)
+		path.LineTo(w, h-l)
+		path.ArcTo(w, h, w-l, h, l)
+		path.LineTo(l, h)
+		path.ArcTo(0, h, 0, h-l, l)
+		path.LineTo(0, l)
+		path.ArcTo(0, 0, l, 0, l)
 		
 	}
 
