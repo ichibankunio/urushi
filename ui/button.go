@@ -46,8 +46,7 @@ func (b *Button) Update() {
 		b.spr.Alpha = 0.7
 		b.OnClick()
 	}
-	if inpututil.IsTouchJustReleased(b.spr.TouchID) {
-	// if inpututil.IsTouchJustReleased(b.spr.TouchID) || (inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft)) {
+	if inpututil.IsTouchJustReleased(b.spr.TouchID) || (inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft)) {
 		b.spr.Alpha = 1
 		b.OnRelease()
 	}
