@@ -29,7 +29,7 @@ type Button struct {
 func NewButton(txt string, centerX int, y int, width int, height int, fontface font.Face, theme UITheme) *Button {
 	return &Button{
 		spr: urushi.NewSprite(newButtonImg(width, height, theme), float64(centerX - width / 2), float64(y)),
-		txt: urushi.NewTxtSpr(txt, float64(centerX - text.BoundString(fontface, txt).Dx()/2), float64(y - text.BoundString(fontface, txt).Dy()/2), color.Black, fontface, 0, 0, false),
+		txt: urushi.NewTxtSpr(txt, float64(centerX - text.BoundString(fontface, txt).Dx()/2), float64(y + height / 2 - text.BoundString(fontface, txt).Dy()/2), color.Black, fontface, 0, 0, false),
 		OnClick: func(){},
 	}
 }
