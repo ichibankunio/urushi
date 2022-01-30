@@ -31,7 +31,7 @@ func newButtonImg(width, height int) *ebiten.Image {
 	bg.Fill(color.White)
 	src := ebiten.NewImage(1, 1)
 	src.Fill(color.Black)
-	line := width / 8
+	line := height / 8
 	var path vector.Path
 
 	path.MoveTo(0, 0)
