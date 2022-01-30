@@ -15,6 +15,7 @@ type Game struct {
 
 	scenes []*Scene
 	State SceneID
+	Lang int
 }
 
 type SceneID int
