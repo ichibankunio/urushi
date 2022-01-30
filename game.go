@@ -18,6 +18,9 @@ type Game struct {
 	Lang int
 }
 
+var justPressedTouchIDs []ebiten.TouchID
+var touchIDs []ebiten.TouchID
+
 type SceneID int
 
 func (g *Game) Update() error {

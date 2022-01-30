@@ -57,9 +57,10 @@ func (s *Sprite) IsJustTouched() bool {
 	}
 
 	// touch := inpututil.JustPressedTouchIDs()
-	touch := inpututil.AppendJustPressedTouchIDs(nil)
-	if len(touch) > 0 {
-		for _, t := range touch {
+	justPressedTouchIDs = inpututil.AppendJustPressedTouchIDs(justPressedTouchIDs)
+	// touch := inpututil.AppendJustPressedTouchIDs(nil)
+	if len(justPressedTouchIDs) > 0 {
+		for _, t := range justPressedTouchIDs {
 			x, y := ebiten.TouchPosition(t)
 			if x >= int(s.X) && x <= int(s.X)+s.Img.Bounds().Dx() && y >= int(s.Y) && y <= int(s.Y)+s.Img.Bounds().Dy() {
 				s.TouchID = t
@@ -97,9 +98,10 @@ func (s *Sprite) IsTouched() bool {
 		}
 	}
 
-	t := ebiten.TouchIDs()
-	if len(t) > 0 {
-		x, y := ebiten.TouchPosition(t[0])
+	// t := ebiten.TouchIDs()
+	touchIDs = ebiten.AppendTouchIDs(touchIDs)
+	if len(touchIDs) > 0 {
+		x, y := ebiten.TouchPosition(touchIDs[0])
 		if x >= int(s.X) && x <= int(s.X)+s.Img.Bounds().Dx() && y >= int(s.Y) && y <= int(s.Y)+s.Img.Bounds().Dy() {
 			return true
 		}
