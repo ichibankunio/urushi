@@ -21,6 +21,11 @@ func NewButton(txt string, centerX int, centerY int, width int, height int, font
 	}
 }
 
+func (b *Button) Draw(screen *ebiten.Image) {
+	b.spr.Draw(screen)
+	b.txt.Draw(screen)
+}
+
 func newButtonImg(width, height int) *ebiten.Image {
 	bg := ebiten.NewImage(width, height)
 	bg.Fill(color.White)
