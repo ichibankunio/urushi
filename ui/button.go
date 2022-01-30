@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/ichibankunio/urushi"
@@ -39,6 +40,9 @@ func (b *Button) Draw(screen *ebiten.Image) {
 func (b *Button) Update() {
 	if b.spr.IsTouched() {
 		b.spr.Alpha = 0.5
+	}
+	if inpututil.IsTouchJustReleased(b.spr.TouchID) {
+		b.spr.Alpha = 1
 	}
 }
 
