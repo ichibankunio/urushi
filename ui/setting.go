@@ -7,8 +7,8 @@ import (
 
 type config struct {
 	texts [2]map[string]string
-	soundBtn button
-	reviewButton button
+	soundBtn Button
+	reviewButton Button
 }
 
 
