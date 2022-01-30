@@ -24,6 +24,7 @@ type Button struct {
 	spr *urushi.Sprite
 	txt *urushi.TxtSpr
 	OnClick func()
+	OnRelease func()
 }
 
 func NewButton(txt string, centerX int, y int, width int, height int, fontface font.Face, theme UITheme) *Button {
@@ -31,6 +32,7 @@ func NewButton(txt string, centerX int, y int, width int, height int, fontface f
 		spr: urushi.NewSprite(newButtonImg(width, height, theme), float64(centerX - width / 2), float64(y)),
 		txt: urushi.NewTxtSpr(txt, float64(centerX - text.BoundString(fontface, txt).Dx()/2), float64(y + height / 2 - text.BoundString(fontface, txt).Dy()/2), color.Black, fontface, 0, 0, false),
 		OnClick: func(){},
+		OnRelease: func(){},
 	}
 }
 
@@ -40,12 +42,13 @@ func (b *Button) Draw(screen *ebiten.Image) {
 }
 
 func (b *Button) Update() {
-	if b.spr.IsTouched() {
+	if b.spr.IsJustTouched() {
 		b.spr.Alpha = 0.7
+		b.OnClick()
 	}
 	if inpututil.IsTouchJustReleased(b.spr.TouchID) || (inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft)) {
 		b.spr.Alpha = 1
-		b.OnClick()
+		b.OnRelease()
 	}
 }
 
