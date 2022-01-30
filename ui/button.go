@@ -16,6 +16,7 @@ type UITheme int
 const (
 	ThemeRect UITheme = iota
 	ThemeRound
+	ThemeShadow
 )
 
 type Button struct {
@@ -40,7 +41,12 @@ func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 	src := ebiten.NewImage(1, 1)
 	src.Fill(color.Black)
 
+	src2 := ebiten.NewImage(1, 1)
+	src2.Fill(color.White)
+
+
 	var path vector.Path
+	var path2 vector.Path
 
 	w := float32(width)
 	h := float32(height)
@@ -49,7 +55,6 @@ func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 	switch theme {
 	case ThemeRect:
 		bg.Fill(color.White)
-
 		path.MoveTo(0, 0)
 		path.LineTo(float32(width), 0)
 		path.LineTo(float32(width), float32(height))
@@ -72,8 +77,7 @@ func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 		path.LineTo(0, l)
 		path.ArcTo(0, 0, l, 0, l)
 
-		w -= l * 2
-		h -= l * 2
+	case ThemeShadow:
 		path.MoveTo(l, 0)
 		path.LineTo(w - l, 0)
 		path.ArcTo(w, 0, w, l, l)
@@ -83,6 +87,16 @@ func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 		path.ArcTo(0, h, 0, h-l, l)
 		path.LineTo(0, l)
 		path.ArcTo(0, 0, l, 0, l)
+
+		path2.MoveTo(l, 0)
+		path2.LineTo(w - l, 0)
+		path2.ArcTo(w, 0, w, l, l)
+		path2.LineTo(w, h- l*2)
+		path2.ArcTo(w, h-l, w-l, h-l, l)
+		path2.LineTo(l, h-l)
+		path2.ArcTo(0, h-l, 0, h-l*2, l)
+		path2.LineTo(0, l)
+		path2.ArcTo(0, 0, l, 0, l)
 		
 	}
 
@@ -93,6 +107,13 @@ func newButtonImg(width, height int, theme UITheme) *ebiten.Image {
 
 	vs, is := path.AppendVerticesAndIndicesForFilling(nil, nil)
 	bg.DrawTriangles(vs, is, src, op)
+
+	op2 := &ebiten.DrawTrianglesOptions{
+		FillRule: ebiten.EvenOdd,
+	}
+
+	vs2, is2 := path.AppendVerticesAndIndicesForFilling(nil, nil)
+	bg.DrawTriangles(vs2, is2, src2, op2)
 	
 	return bg
 }
