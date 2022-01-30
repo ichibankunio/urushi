@@ -3,6 +3,7 @@ package ui
 import (
 	"image/color"
 
+	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/ichibankunio/urushi"
@@ -17,7 +18,7 @@ type Button struct {
 func NewButton(txt string, centerX int, centerY int, width int, height int, fontface font.Face) *Button {
 	return &Button{
 		spr: urushi.NewSprite(newButtonImg(width, height), float64(centerX - width / 2), float64(centerY - height / 2)),
-		txt: urushi.NewTxtSpr(txt, float64(centerX - width / 2), float64(centerY - height / 2), color.Black, fontface, 0, 0, false),
+		txt: urushi.NewTxtSpr(txt, float64(centerX - text.BoundString(fontface, txt).Dx()/2), float64(centerY - text.BoundString(fontface, txt).Dy()/2), color.Black, fontface, 0, 0, false),
 	}
 }
 
@@ -31,7 +32,7 @@ func newButtonImg(width, height int) *ebiten.Image {
 	bg.Fill(color.White)
 	src := ebiten.NewImage(1, 1)
 	src.Fill(color.Black)
-	line := height / 8
+	line := height / 16
 	var path vector.Path
 
 	path.MoveTo(0, 0)
